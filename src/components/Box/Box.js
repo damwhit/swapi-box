@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
 import CategoryButton from '../CategoryButton/CategoryButton.js';
+import ResultCard from '../ResultCard/ResultCard.js';
 import './Box.css';
 
 class Box extends Component {
@@ -9,11 +10,42 @@ class Box extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      resource: null
+      numFavorites: 0,
+      resources: JSON.parse(localStorage.getItem('resources')),
     };
   }
 
-  handleClick() {
+  componentDidMount() {
+    this.countFavorites();
+  }
+
+  countFavorites() {
+    this.setState({
+      numFavorites: this.state.resources.filter(resource => resource.isFavorite === true).length
+    });
+  }
+
+  renderCategoryButton(category) {
+    return (
+      <CategoryButton 
+        onClick={() => this.showCategory(category)} 
+        value={category}
+      />
+    );
+  }
+  
+  showCategory(category) {
+    if (!category) {
+      return <article>Pick a category</article>
+    } else {
+      const items = this.state.resources.filter((resource) => {
+        return resource.category === category;
+      });
+      items.forEach((item) => {
+        this.renderResultCard(item);
+      });
+    }
+
     const { error, isLoaded } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -24,11 +56,10 @@ class Box extends Component {
     }
   }
 
-
-  renderResultsCards() {
-    if (!this.state.resource) {
-      return <article>Select a category</article>
-    }
+  renderResultCard(result) {
+    return (
+      <ResultCard value={result}/>
+    );
   }
 
   render() {
@@ -37,14 +68,14 @@ class Box extends Component {
         <main className="box">
           <section>
             <h1>SWAPI-Box</h1>
-            <FavoritesButton value={1}/>
+            <FavoritesButton value={this.state.numFavorites}/>
           </section>
           <section>
-            <CategoryButton value="people"/>
-            <CategoryButton value="planets"/>
-            <CategoryButton value="vehicles"/>
+            {this.renderCategoryButton('people')}
+            {this.renderCategoryButton('planets')}
+            {this.renderCategoryButton('vehicles')}
             <section>
-              {this.renderResultsCards()}
+              {this.showCategory(null)}
             </section>
           </section>
         </main>

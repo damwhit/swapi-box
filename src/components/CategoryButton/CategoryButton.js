@@ -1,7 +1,9 @@
 import React from 'react';
 function CategoryButton(props) {
   return (
-    <button>{props.value}</button>
+    <button onClick={props.onClick}>
+      {props.value}
+    </button>
   );
 }
 
