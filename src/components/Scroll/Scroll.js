@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Scroll.css';
 
 class Scroll extends Component {
   constructor(props) {
@@ -46,11 +47,11 @@ class Scroll extends Component {
     } else {
       const randomFilm = films[Math.floor(Math.random() * films.length)];
       return (
-        <article>
+        <aside className="scroll">
           <p>{randomFilm.opening_crawl}</p>
           <h3>{randomFilm.title}</h3>
           <h4>{randomFilm.release_date}</h4>
-        </article>
+        </aside>
       );
     }
   }
