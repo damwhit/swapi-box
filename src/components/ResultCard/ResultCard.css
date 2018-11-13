@@ -1,0 +1,7 @@
+.btn--favorite-false {
+  background-color: red;
+}
+
+.btn--favorite-true {
+  background-color: green;
+}
