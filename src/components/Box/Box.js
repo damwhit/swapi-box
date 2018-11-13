@@ -50,10 +50,12 @@ class Box extends Component {
   }
 
   toggleFavoriteResource(name) {
-    debugger;
-    // const resources = this.state.resources;
-    // const resource = resources.find(resource => resource.name === name);
-    // resource.isFavorite = !resource.isFavorite;
+    const resources = this.state.resources;
+    const resource = resources.find(resource => resource.name === name);
+    resource.isFavorite = !resource.isFavorite;
+    this.setState({ resources: resources });
+    localStorage.setItem('resources', JSON.stringify(resources));
+    this.countFavorites();
   }
   
   renderCategoryButton(category) {
