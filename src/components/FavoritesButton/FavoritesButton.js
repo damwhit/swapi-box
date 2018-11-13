@@ -1,7 +1,9 @@
 import React from 'react';
 function FavoritesButton(props) {
   return (
-    <button>Show Favorites ({props.value})</button>
+    <button onClick={props.onClick}>
+      Show Favorites ({props.value})
+    </button>
   );
 }
 

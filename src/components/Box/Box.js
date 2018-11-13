@@ -26,19 +26,16 @@ class Box extends Component {
     });
   }
 
-  renderCategoryButton(category) {
-    return (
-      <CategoryButton 
-        onClick={() => this.changeResults(category)} 
-        value={category}
-      />
-    );
-  }
-
   changeResults(category) {
-    const results = this.state.resources.filter((resource) => {
-      return resource.category === category;
-    });
+    const resources = this.state.resources;
+    let results;
+    if (category === 'favorites') {
+      results = resources.filter(resource => resource.isFavorite);
+    } else {
+      results = resources.filter((resource) => {
+        return resource.category === category;
+      });
+    }
     this.setState({
       results: results
     });
@@ -52,13 +49,25 @@ class Box extends Component {
     // }
   }
   
+  renderCategoryButton(category) {
+    return (
+      <CategoryButton 
+        onClick={() => this.changeResults(category)} 
+        value={category}
+      />
+    );
+  }
+
   render() {
     if (true) {
       return (
         <main className="box">
           <section>
             <h1>SWAPI-Box</h1>
-            <FavoritesButton value={this.state.numFavorites}/>
+            <FavoritesButton 
+              onClick={() => this.changeResults('favorites')} 
+              value={this.state.numFavorites}
+            />
           </section>
           <section>
             {this.renderCategoryButton('people')}
