@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
 import CategoryButton from '../CategoryButton/CategoryButton.js';
 import ResultsContainer from '../ResultsContainer/ResultsContainer.js';
@@ -48,6 +48,13 @@ class Box extends Component {
     //   return <div>loaded</div>
     // }
   }
+
+  toggleFavoriteResource(name) {
+    debugger;
+    // const resources = this.state.resources;
+    // const resource = resources.find(resource => resource.name === name);
+    // resource.isFavorite = !resource.isFavorite;
+  }
   
   renderCategoryButton(category) {
     return (
@@ -74,7 +81,10 @@ class Box extends Component {
             {this.renderCategoryButton('planets')}
             {this.renderCategoryButton('vehicles')}
           </section>
-          <ResultsContainer results={this.state.results}/>
+          <ResultsContainer 
+            onClick={(name) => this.toggleFavoriteResource(name)} 
+            results={this.state.results}
+          />
         </main>
       );
     }
