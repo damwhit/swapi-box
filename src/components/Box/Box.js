@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
 import CategoryButton from '../CategoryButton/CategoryButton.js';
-import ResultCard from '../ResultCard/ResultCard.js';
+import ResultsContainer from '../ResultsContainer/ResultsContainer.js';
 import './Box.css';
 
 class Box extends Component {
@@ -12,6 +12,7 @@ class Box extends Component {
       isLoaded: false,
       numFavorites: 0,
       resources: JSON.parse(localStorage.getItem('resources')),
+      results: [],
     };
   }
 
@@ -28,40 +29,29 @@ class Box extends Component {
   renderCategoryButton(category) {
     return (
       <CategoryButton 
-        onClick={() => this.showCategory(category)} 
+        onClick={() => this.changeResults(category)} 
         value={category}
       />
     );
   }
+
+  changeResults(category) {
+    const results = this.state.resources.filter((resource) => {
+      return resource.category === category;
+    });
+    this.setState({
+      results: results
+    });
+    // const { error, isLoaded } = this.state;
+    // if (error) {
+    //   return <div>Error: {error.message}</div>;
+    // } else if (!isLoaded) {
+    //   return <div>Loading...</div>;
+    // } else {
+    //   return <div>loaded</div>
+    // }
+  }
   
-  showCategory(category) {
-    if (!category) {
-      return <article>Pick a category</article>
-    } else {
-      const items = this.state.resources.filter((resource) => {
-        return resource.category === category;
-      });
-      items.forEach((item) => {
-        this.renderResultCard(item);
-      });
-    }
-
-    const { error, isLoaded } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return <div>loaded</div>
-    }
-  }
-
-  renderResultCard(result) {
-    return (
-      <ResultCard value={result}/>
-    );
-  }
-
   render() {
     if (true) {
       return (
@@ -74,10 +64,8 @@ class Box extends Component {
             {this.renderCategoryButton('people')}
             {this.renderCategoryButton('planets')}
             {this.renderCategoryButton('vehicles')}
-            <section>
-              {this.showCategory(null)}
-            </section>
           </section>
+          <ResultsContainer results={this.state.results}/>
         </main>
       );
     }
