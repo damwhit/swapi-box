@@ -6,8 +6,8 @@ function ResultCard(props) {
   return (
     <article>
       {result.name}
-      <button 
-        className={`btn--favorite-${result.isFavorite}`} 
+      <button
+        className={`btn btn--favorite btn--favorite-${result.isFavorite}`}
         onClick={props.onClick}
       >
         favorite

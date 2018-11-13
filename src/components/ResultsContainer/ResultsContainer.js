@@ -12,15 +12,13 @@ class ResultsContainer extends Component {
     );
   }
   render() {
-    let results;
-    if (this.props.results.length < 0) {
-      results = <article>Pick a category</article>;
-    } else {
-      results = this.props.results.map((result) => {
-        return this.renderResultCard(result);
-      });
-      return results
-    }
+    const results = this.props.results;
+    const noResults = results.length < 1;
+    if (noResults && this.props.isFavorites) return <article>You have no Favorites</article>;
+    if (noResults) return <article>Pick a category</article>;
+    return results.map((result) => {
+      return this.renderResultCard(result);
+    });
   }
 }
 

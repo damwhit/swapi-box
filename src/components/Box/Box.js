@@ -10,6 +10,7 @@ class Box extends Component {
     this.state = {
       error: null,
       isLoaded: false,
+      isShowingFavorites: false,
       numFavorites: 0,
       resources: JSON.parse(localStorage.getItem('resources')),
       results: [],
@@ -30,8 +31,10 @@ class Box extends Component {
     const resources = this.state.resources;
     let results;
     if (category === 'favorites') {
+      this.setState({ isShowingFavorites: true }); 
       results = resources.filter(resource => resource.isFavorite);
     } else {
+      this.setState({ isShowingFavorites: false }); 
       results = resources.filter((resource) => {
         return resource.category === category;
       });
@@ -84,6 +87,7 @@ class Box extends Component {
             {this.renderCategoryButton('vehicles')}
           </section>
           <ResultsContainer 
+            isFavorites={this.state.isShowingFavorites}
             onClick={(name) => this.toggleFavoriteResource(name)} 
             results={this.state.results}
           />
