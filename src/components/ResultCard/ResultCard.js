@@ -3,11 +3,14 @@ import './ResultCard.css';
 
 function ResultCard(props) {
   let result = props.value;
+  const className = `card card--favorite-${result.isFavorite}`
   return (
-    <article>
+    <article
+      className={className}
+    >
       {result.name}
       <button
-        className={`btn btn--favorite btn--favorite-${result.isFavorite}`}
+        className="btn"
         onClick={props.onClick}
       >
         favorite

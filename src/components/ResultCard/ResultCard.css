@@ -1,7 +1,7 @@
-.btn--favorite-false {
+.card--favorite-false .btn {
   background-color: red;
 }
 
-.btn--favorite-true {
+.card--favorite-true .btn {
   background-color: green;
 }
