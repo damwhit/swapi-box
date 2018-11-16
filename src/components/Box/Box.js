@@ -23,7 +23,7 @@ class Box extends Component {
 
   countFavorites() {
     this.setState({
-      numFavorites: this.state.resources.filter(resource => resource.isFavorite === true).length
+      numFavorites: this.state.resources.filter(resource => resource.isFavorite).length
     });
   }
 
