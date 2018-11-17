@@ -12,7 +12,7 @@ class Box extends Component {
       isLoaded: false,
       isShowingFavorites: false,
       numFavorites: 0,
-      resources: JSON.parse(localStorage.getItem('resources')),
+      resources: JSON.parse(localStorage.getItem('resources')) || [],
       results: [],
     };
   }
