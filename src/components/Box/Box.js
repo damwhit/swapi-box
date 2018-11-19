@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter } from "react-router-dom";
 import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
 import CategoryButton from '../CategoryButton/CategoryButton.js';
 import ResultsContainer from '../ResultsContainer/ResultsContainer.js';
@@ -10,7 +11,7 @@ class Box extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      isShowingFavorites: false,
+      category: null,
       numFavorites: 0,
       resources: JSON.parse(localStorage.getItem('resources')) || [],
       results: [],
@@ -31,15 +32,14 @@ class Box extends Component {
     const resources = this.state.resources;
     let results;
     if (category === 'favorites') {
-      this.setState({ isShowingFavorites: true }); 
       results = resources.filter(resource => resource.isFavorite);
     } else {
-      this.setState({ isShowingFavorites: false }); 
       results = resources.filter((resource) => {
         return resource.category === category;
       });
     }
     this.setState({
+      category: category,
       results: results
     });
     // const { error, isLoaded } = this.state;
@@ -73,25 +73,27 @@ class Box extends Component {
   render() {
     if (true) {
       return (
-        <main className="box">
-          <section>
-            <h1>SWAPI-Box</h1>
-            <FavoritesButton 
-              onClick={() => this.changeResults('favorites')} 
-              value={this.state.numFavorites}
+        <BrowserRouter>
+          <main className="box">
+            <section>
+              <h1>SWAPI-Box</h1>
+              <FavoritesButton 
+                onClick={() => this.changeResults('favorites')} 
+                value={this.state.numFavorites}
+              />
+            </section>
+            <section>
+              {this.renderCategoryButton('people')}
+              {this.renderCategoryButton('planets')}
+              {this.renderCategoryButton('vehicles')}
+            </section>
+            <ResultsContainer 
+              category={this.state.category}
+              onClick={(name) => this.toggleFavoriteResource(name)} 
+              results={this.state.results}
             />
-          </section>
-          <section>
-            {this.renderCategoryButton('people')}
-            {this.renderCategoryButton('planets')}
-            {this.renderCategoryButton('vehicles')}
-          </section>
-          <ResultsContainer 
-            isFavorites={this.state.isShowingFavorites}
-            onClick={(name) => this.toggleFavoriteResource(name)} 
-            results={this.state.results}
-          />
-        </main>
+          </main>
+        </BrowserRouter>
       );
     }
   }

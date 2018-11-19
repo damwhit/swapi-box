@@ -1,9 +1,15 @@
 import React from 'react';
+import { NavLink } from "react-router-dom";
+
 function CategoryButton(props) {
+  const category = props.value;
+  const linkPath = `/${category}`;
   return (
-    <button onClick={props.onClick}>
-      {props.value}
-    </button>
+    <NavLink to={linkPath} activeClassName="btn--category">
+      <button onClick={props.onClick}>
+        {category}
+      </button>
+    </NavLink>
   );
 }
 

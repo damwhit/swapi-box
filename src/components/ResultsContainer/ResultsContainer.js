@@ -14,7 +14,7 @@ class ResultsContainer extends Component {
   render() {
     const results = this.props.results;
     const noResults = results.length < 1;
-    if (noResults && this.props.isFavorites) return <article>You have no Favorites</article>;
+    if (noResults && this.props.category === 'favorites') return <article>You have no Favorites</article>;
     if (noResults) return <article>Pick a category</article>;
     return results.map((result) => {
       return this.renderResultCard(result);
