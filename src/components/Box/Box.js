@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
 import CategoryButton from '../CategoryButton/CategoryButton.js';
 import ResultsContainer from '../ResultsContainer/ResultsContainer.js';
+import ApiHelper from '../ApiHelper/ApiHelper.js';
 import './Box.css';
 
 class Box extends Component {
@@ -14,7 +15,6 @@ class Box extends Component {
       category: null,
       numFavorites: 0,
       resources: JSON.parse(localStorage.getItem('resources')) || [],
-      results: [],
     };
   }
 
@@ -32,6 +32,9 @@ class Box extends Component {
     this.setState({
       category: category,
     });
+    const resourceExists = this.state.resources.some((resource) => resource.category === category);
+    if (resourceExists && category !== 'favorites') return;
+    ApiHelper.fetchResources(category);
     // const { error, isLoaded } = this.state;
     // if (error) {
     //   return <div>Error: {error.message}</div>;
