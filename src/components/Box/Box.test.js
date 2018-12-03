@@ -13,7 +13,7 @@ describe('Box', () => {
     ];
 
     wrapper.setState({
-      resources: mockResources
+      resources: mockResources,
     });
 
     // Execution
@@ -21,5 +21,5 @@ describe('Box', () => {
 
     // Expectation
     expect(wrapper.state('numFavorites')).toEqual(2);
-  })
+  });
 });

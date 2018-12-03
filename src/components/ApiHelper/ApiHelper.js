@@ -1,7 +1,7 @@
 class ApiHelper {
-  static fetchResources (category) {
-    debugger
+  static fetchResources(category) {
+    debugger;
   }
 }
 
-export default ApiHelper
+export default ApiHelper;

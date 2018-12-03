@@ -2,8 +2,8 @@ import React from 'react';
 import './ResultCard.css';
 
 function ResultCard(props) {
-  let result = props.value;
-  const className = `card card--favorite-${result.isFavorite}`
+  const result = props.value;
+  const className = `card card--favorite-${result.isFavorite}`;
   return (
     <article
       className={className}

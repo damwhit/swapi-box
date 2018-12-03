@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route } from 'react-router-dom';
 import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
 import CategoryButton from '../CategoryButton/CategoryButton.js';
 import ResultsContainer from '../ResultsContainer/ResultsContainer.js';
@@ -24,15 +24,15 @@ class Box extends Component {
 
   countFavorites() {
     this.setState({
-      numFavorites: this.state.resources.filter(resource => resource.isFavorite).length
+      numFavorites: this.state.resources.filter(resource => resource.isFavorite).length,
     });
   }
 
   changeCategory(category) {
     this.setState({
-      category: category,
+      category,
     });
-    const resourceExists = this.state.resources.some((resource) => resource.category === category);
+    const resourceExists = this.state.resources.some(resource => resource.category === category);
     if (resourceExists && category !== 'favorites') return;
     ApiHelper.fetchResources(category);
     // const { error, isLoaded } = this.state;
@@ -49,15 +49,15 @@ class Box extends Component {
     const resources = this.state.resources;
     const resource = resources.find(resource => resource.name === name);
     resource.isFavorite = !resource.isFavorite;
-    this.setState({ resources: resources });
+    this.setState({ resources });
     localStorage.setItem('resources', JSON.stringify(resources));
     this.countFavorites();
   }
-  
+
   renderCategoryButton(category) {
     return (
-      <CategoryButton 
-        onClick={() => this.changeCategory(category)} 
+      <CategoryButton
+        onClick={() => this.changeCategory(category)}
         value={category}
       />
     );
@@ -70,8 +70,8 @@ class Box extends Component {
           <main className="box">
             <section>
               <h1>SWAPI-Box</h1>
-              <FavoritesButton 
-                onClick={() => this.changeCategory('favorites')} 
+              <FavoritesButton
+                onClick={() => this.changeCategory('favorites')}
                 value={this.state.numFavorites}
               />
             </section>
@@ -80,15 +80,16 @@ class Box extends Component {
               {this.renderCategoryButton('planets')}
               {this.renderCategoryButton('vehicles')}
             </section>
-            <Route path='/:category' render={({ match }) => {
-              return (
-                <ResultsContainer 
+            <Route
+              path="/:category"
+              render={({ match }) => (
+                <ResultsContainer
                   category={match.params.category}
-                  onClick={this.toggleFavoriteResource} 
+                  onClick={this.toggleFavoriteResource}
                   resources={this.state.resources}
                 />
-              );
-            }} />
+              )}
+            />
           </main>
         </BrowserRouter>
       );
