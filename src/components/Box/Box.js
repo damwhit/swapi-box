@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import FavoritesButton from '../FavoritesButton/FavoritesButton';
 import CategoryButton from '../CategoryButton/CategoryButton';
 import ResultsContainer from '../ResultsContainer/ResultsContainer';
@@ -79,16 +79,35 @@ class Box extends Component {
             {this.renderCategoryButton('planets')}
             {this.renderCategoryButton('vehicles')}
           </section>
-          <Route
-            path="/:category"
-            render={({ match }) => (
-              <ResultsContainer
-                category={match.params.category}
-                onClick={this.toggleFavoriteResource}
-                resources={resources}
-              />
-            )}
-          />
+
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <h3>
+                  Pick a category
+                </h3>
+              )}
+            />
+            <Route
+              path="/:category(favorites|people|planets|vehicles)"
+              render={({ match }) => (
+                <ResultsContainer
+                  category={match.params.category}
+                  onClick={this.toggleFavoriteResource}
+                  resources={resources}
+                />
+              )}
+            />
+            <Route
+              render={() => (
+                <h3>
+                  404 Page not found
+                </h3>
+              )}
+            />
+          </Switch>
         </main>
       </BrowserRouter>
     );
