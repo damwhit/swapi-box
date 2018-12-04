@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import './ResultCard.css';
 
-function ResultCard(props) {
-  const result = props.value;
+const ResultCard = ({ onClick, result }) => {
   const className = `card card--favorite-${result.isFavorite}`;
   return (
     <article
@@ -11,12 +11,18 @@ function ResultCard(props) {
       {result.name}
       <button
         className="btn"
-        onClick={props.onClick}
+        onClick={onClick}
+        type="button"
       >
         favorite
       </button>
     </article>
   );
-}
+};
+
+ResultCard.propTypes = {
+  result: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default ResultCard;

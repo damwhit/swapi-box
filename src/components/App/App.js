@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import Scroll from '../Scroll/Scroll.js';
-import Box from '../Box/Box.js';
+import Scroll from '../Scroll/Scroll';
+import Box from '../Box/Box';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Scroll />
-        <Box />
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <Scroll />
+      <Box />
+    </div>
+  );
 }
 
 export default App;

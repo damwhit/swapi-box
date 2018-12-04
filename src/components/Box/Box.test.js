@@ -1,11 +1,11 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import Box from './Box';
 
 describe('Box', () => {
   it('should update the state with the number of favorite resources', () => {
     // Setup
-    const wrapper = mount(<Box />);
+    const wrapper = shallow(<Box />);
     const mockResources = [
       { name: 'Han Solo', isFavorite: true },
       { name: 'Chewbacca', isFavorite: true },

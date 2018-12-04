@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import FavoritesButton from '../FavoritesButton/FavoritesButton.js';
-import CategoryButton from '../CategoryButton/CategoryButton.js';
-import ResultsContainer from '../ResultsContainer/ResultsContainer.js';
-import ApiHelper from '../ApiHelper/ApiHelper.js';
+import FavoritesButton from '../FavoritesButton/FavoritesButton';
+import CategoryButton from '../CategoryButton/CategoryButton';
+import ResultsContainer from '../ResultsContainer/ResultsContainer';
+import ApiHelper from '../ApiHelper/ApiHelper';
 import './Box.css';
 
 class Box extends Component {
@@ -12,7 +12,6 @@ class Box extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      category: null,
       numFavorites: 0,
       resources: JSON.parse(localStorage.getItem('resources')) || [],
     };
@@ -22,17 +21,18 @@ class Box extends Component {
     this.countFavorites();
   }
 
-  countFavorites() {
-    this.setState({
-      numFavorites: this.state.resources.filter(resource => resource.isFavorite).length,
-    });
+  toggleFavoriteResource = (name) => {
+    const { resources } = this.state;
+    const toggleable = resources.find(resource => resource.name === name);
+    toggleable.isFavorite = !toggleable.isFavorite;
+    this.setState({ resources });
+    localStorage.setItem('resources', JSON.stringify(resources));
+    this.countFavorites();
   }
 
   changeCategory(category) {
-    this.setState({
-      category,
-    });
-    const resourceExists = this.state.resources.some(resource => resource.category === category);
+    const { resources } = this.state;
+    const resourceExists = resources.some(resource => resource.category === category);
     if (resourceExists && category !== 'favorites') return;
     ApiHelper.fetchResources(category);
     // const { error, isLoaded } = this.state;
@@ -45,55 +45,53 @@ class Box extends Component {
     // }
   }
 
-  toggleFavoriteResource = (name) => {
-    const resources = this.state.resources;
-    const resource = resources.find(resource => resource.name === name);
-    resource.isFavorite = !resource.isFavorite;
-    this.setState({ resources });
-    localStorage.setItem('resources', JSON.stringify(resources));
-    this.countFavorites();
+  countFavorites() {
+    const { resources } = this.state;
+    const numFavorites = resources.filter(resource => (
+      resource.isFavorite
+    )).length;
+    this.setState({ numFavorites });
   }
 
   renderCategoryButton(category) {
     return (
       <CategoryButton
         onClick={() => this.changeCategory(category)}
-        value={category}
+        category={category}
       />
     );
   }
 
   render() {
-    if (true) {
-      return (
-        <BrowserRouter>
-          <main className="box">
-            <section>
-              <h1>SWAPI-Box</h1>
-              <FavoritesButton
-                onClick={() => this.changeCategory('favorites')}
-                value={this.state.numFavorites}
-              />
-            </section>
-            <section>
-              {this.renderCategoryButton('people')}
-              {this.renderCategoryButton('planets')}
-              {this.renderCategoryButton('vehicles')}
-            </section>
-            <Route
-              path="/:category"
-              render={({ match }) => (
-                <ResultsContainer
-                  category={match.params.category}
-                  onClick={this.toggleFavoriteResource}
-                  resources={this.state.resources}
-                />
-              )}
+    const { numFavorites, resources } = this.state;
+    return (
+      <BrowserRouter>
+        <main className="box">
+          <section>
+            <h1>SWAPI-Box</h1>
+            <FavoritesButton
+              onClick={() => this.changeCategory('favorites')}
+              numFavorites={numFavorites}
             />
-          </main>
-        </BrowserRouter>
-      );
-    }
+          </section>
+          <section>
+            {this.renderCategoryButton('people')}
+            {this.renderCategoryButton('planets')}
+            {this.renderCategoryButton('vehicles')}
+          </section>
+          <Route
+            path="/:category"
+            render={({ match }) => (
+              <ResultsContainer
+                category={match.params.category}
+                onClick={this.toggleFavoriteResource}
+                resources={resources}
+              />
+            )}
+          />
+        </main>
+      </BrowserRouter>
+    );
   }
 }
 

@@ -1,16 +1,24 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function CategoryButton(props) {
-  const category = props.value;
+function CategoryButton({ category, onClick }) {
   const linkPath = `/${category}`;
   return (
     <NavLink to={linkPath} activeClassName="btn--category">
-      <button onClick={props.onClick}>
+      <button
+        onClick={onClick}
+        type="button"
+      >
         {category}
       </button>
     </NavLink>
   );
 }
+
+CategoryButton.propTypes = {
+  category: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default CategoryButton;

@@ -1,30 +1,38 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import ResultCard from '../ResultCard/ResultCard.js';
+import ResultCard from '../ResultCard/ResultCard';
 
 class ResultsContainer extends Component {
   renderResultCard(result) {
+    const { onClick } = this.props;
     return (
       <ResultCard
         key={result.name}
-        onClick={() => this.props.onClick(result.name)}
-        value={result}
+        onClick={() => onClick(result.name)}
+        result={result}
       />
     );
   }
 
   render() {
-    const resources = this.props.resources;
+    const { category, resources } = this.props;
     let results;
-    if (this.props.category === 'favorites') {
+    if (category === 'favorites') {
       results = resources.filter(resource => resource.isFavorite);
     } else {
-      results = resources.filter(resource => resource.category === this.props.category);
+      results = resources.filter(resource => resource.category === category);
     }
     const noResults = results.length < 1;
-    if (noResults && this.props.category === 'favorites') { return <article>You have no Favorites</article>; }
+    if (noResults && category === 'favorites') { return <article>You have no Favorites</article>; }
     if (noResults) return <article>Pick a category</article>;
     return results.map(result => this.renderResultCard(result));
   }
 }
+
+ResultsContainer.propTypes = {
+  category: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  resources: PropTypes.array.isRequired,
+};
 
 export default ResultsContainer;

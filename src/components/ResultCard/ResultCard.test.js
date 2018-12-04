@@ -8,9 +8,9 @@ describe('ResultCard', () => {
     isFavorite: true,
   };
 
-  const wrapper = shallow(
+  let wrapper = shallow(
     <ResultCard
-      value={favoriteResult}
+      result={favoriteResult}
       onClick={jest.fn()}
     />,
   );
@@ -26,9 +26,9 @@ describe('ResultCard', () => {
   it('should call the onClick prop when clicked', () => {
     const onClickMock = jest.fn();
 
-    const wrapper = mount(
+    wrapper = mount(
       <ResultCard
-        value={favoriteResult}
+        result={favoriteResult}
         onClick={onClickMock}
       />,
     );
