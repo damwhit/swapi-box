@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import FavoritesButton from '../FavoritesButton/FavoritesButton';
 import CategoryButton from '../CategoryButton/CategoryButton';
 import ResultsContainer from '../ResultsContainer/ResultsContainer';
-import ApiHelper from '../ApiHelper/ApiHelper';
+import Api from '../../helpers/Api/Api';
 import './Box.css';
 
 class Box extends Component {
@@ -36,7 +36,7 @@ class Box extends Component {
     const resourceExists = resources.some(resource => resource.category === category);
     if (resourceExists || category === 'favorites') return this.setState({ isLoaded: true });
     try {
-      const fetchedResources = await ApiHelper.fetchResources(category);
+      const fetchedResources = await Api.fetchResources(category);
       const newResources = [...resources, ...fetchedResources];
       this.setState({ isLoaded: true, resources: newResources });
       localStorage.setItem('resources', JSON.stringify(newResources));

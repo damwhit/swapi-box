@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom';
 function CategoryButton({ category, onClick }) {
   const linkPath = `/${category}`;
   return (
-    <NavLink to={linkPath} activeClassName="btn--category">
-      <button
+    <NavLink to={linkPath} className="link--category">
+      <button 
+        className="btn--category"
         onClick={onClick}
         type="button"
       >

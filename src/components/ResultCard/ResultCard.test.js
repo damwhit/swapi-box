@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import ResultCard from './ResultCard';
 
 describe('ResultCard', () => {
@@ -12,7 +12,7 @@ describe('ResultCard', () => {
     <ResultCard
       result={favoriteResult}
       onClick={jest.fn()}
-    />,
+    />
   );
 
   it('should match the snapshot with all data passed in correctly', () => {
@@ -26,7 +26,7 @@ describe('ResultCard', () => {
   it('should call the onClick prop when clicked', () => {
     const onClickMock = jest.fn();
 
-    wrapper = mount(
+    wrapper = shallow(
       <ResultCard
         result={favoriteResult}
         onClick={onClickMock}
@@ -35,6 +35,6 @@ describe('ResultCard', () => {
 
     wrapper.find('.btn').simulate('click');
 
-    expect(onClickMock).toBeCalled();
+    expect(onClickMock).toHaveBeenCalled();
   });
 });

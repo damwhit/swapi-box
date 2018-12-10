@@ -1,4 +1,4 @@
-class ApiHelper {
+class Api {
   static async fetchResources(category) {
     let resources;
     const response = await fetch(`https://swapi.co/api/${category}/`);
@@ -30,4 +30,4 @@ class ApiHelper {
   }
 }
 
-export default ApiHelper;
+export default Api;

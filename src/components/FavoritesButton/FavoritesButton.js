@@ -4,8 +4,9 @@ import { NavLink } from 'react-router-dom';
 
 function FavoritesButton({ onClick, numFavorites }) {
   return (
-    <NavLink to="/favorites" activeClassName="btn--favorite">
+    <NavLink to="/favorites" className="link--favorite">
       <button
+        className="btn--favorite"
         onClick={onClick}
         type="button"
       >
