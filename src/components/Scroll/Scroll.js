@@ -47,9 +47,8 @@ Error:
           {error.message}
         </div>
       );
-    } if (!isLoaded) {
-      return <div>Loading...</div>;
     }
+    if (!isLoaded) return <div>Loading...</div>;
     const randomFilm = films[Math.floor(Math.random() * films.length)];
     return (
       <aside className="scroll">

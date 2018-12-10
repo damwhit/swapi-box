@@ -15,7 +15,9 @@ class ResultsContainer extends Component {
   }
 
   render() {
-    const { category, resources } = this.props;
+    const {
+      category, error, isLoaded, resources,
+    } = this.props;
     let results;
     if (category === 'favorites') {
       results = resources.filter(resource => resource.isFavorite);
@@ -23,7 +25,18 @@ class ResultsContainer extends Component {
       results = resources.filter(resource => resource.category === category);
     }
     const noResults = results.length < 1;
-    if (noResults && category === 'favorites') { return <article>You have no Favorites</article>; }
+    if (error) {
+      return (
+        <div>
+Error:
+          {error.message}
+        </div>
+      );
+    }
+    if (!isLoaded) return <div>Loading...</div>;
+    if (noResults && category === 'favorites') {
+      return <article>You have no Favorites</article>;
+    }
     if (noResults) return <article>Pick a category</article>;
     return results.map(result => this.renderResultCard(result));
   }
@@ -33,6 +46,10 @@ ResultsContainer.propTypes = {
   category: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   resources: PropTypes.array.isRequired,
+  isLoaded: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.instanceOf(Error),
+  ]),
 };
 
 export default ResultsContainer;

@@ -11,7 +11,7 @@ class Box extends Component {
     super(props);
     this.state = {
       error: null,
-      isLoaded: false,
+      isLoaded: true,
       numFavorites: 0,
       resources: JSON.parse(localStorage.getItem('resources')) || [],
     };
@@ -30,19 +30,19 @@ class Box extends Component {
     this.countFavorites();
   }
 
-  changeCategory(category) {
+  async changeCategory(category) {
+    this.setState({ isLoaded: false });
     const { resources } = this.state;
     const resourceExists = resources.some(resource => resource.category === category);
-    if (resourceExists && category !== 'favorites') return;
-    ApiHelper.fetchResources(category);
-    // const { error, isLoaded } = this.state;
-    // if (error) {
-    //   return <div>Error: {error.message}</div>;
-    // } else if (!isLoaded) {
-    //   return <div>Loading...</div>;
-    // } else {
-    //   return <div>loaded</div>
-    // }
+    if (resourceExists || category === 'favorites') return this.setState({ isLoaded: true });
+    try {
+      const fetchedResources = await ApiHelper.fetchResources(category);
+      const newResources = [...resources, ...fetchedResources];
+      this.setState({ isLoaded: true, resources: newResources });
+      localStorage.setItem('resources', JSON.stringify(newResources));
+    } catch (error) {
+      this.setState({ error });
+    }
   }
 
   countFavorites() {
@@ -63,7 +63,9 @@ class Box extends Component {
   }
 
   render() {
-    const { numFavorites, resources } = this.state;
+    const {
+      error, isLoaded, numFavorites, resources,
+    } = this.state;
     return (
       <BrowserRouter>
         <main className="box">
@@ -79,7 +81,6 @@ class Box extends Component {
             {this.renderCategoryButton('planets')}
             {this.renderCategoryButton('vehicles')}
           </section>
-
           <Switch>
             <Route
               exact
@@ -90,6 +91,7 @@ class Box extends Component {
                 </h3>
               )}
             />
+            if
             <Route
               path="/:category(favorites|people|planets|vehicles)"
               render={({ match }) => (
@@ -97,6 +99,8 @@ class Box extends Component {
                   category={match.params.category}
                   onClick={this.toggleFavoriteResource}
                   resources={resources}
+                  error={error}
+                  isLoaded={isLoaded}
                 />
               )}
             />
