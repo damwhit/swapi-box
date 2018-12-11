@@ -1,5 +1,12 @@
 {
   "name": "swapi-box",
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.js",
+      "!src/serviceWorker.js"
+    ]
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
