@@ -34,9 +34,9 @@ describe('Api', () => {
     });
 
     it('calls addInfo twice if the category is people', async () => {
-      Api.addInfo = jest.fn();
+      Api.handleAddInfo = jest.fn();
       await Api.fetchResources('people');
-      expect(Api.addInfo).toHaveBeenCalledTimes(2);
+      expect(Api.handleAddInfo).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -57,7 +57,7 @@ describe('Api', () => {
     });
 
     it('should call fetch with the correct params', async () => {
-      await Api.addInfo(mockResources, 'species');
+      await Api.addInfo('species', mockResources[0]);
       expect(fetch).toHaveBeenCalledWith('https://swapi.co/api/species/1');
     });
 

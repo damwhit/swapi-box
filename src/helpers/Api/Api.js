@@ -9,8 +9,8 @@ class Api {
       isFavorite: false,
     }));
     if (category === 'people') {
-      const peopleWithSpecies = await this.addInfo(resources, 'species');
-      resources = await this.addInfo(peopleWithSpecies, 'homeworld');
+      const peopleWithSpecies = await this.handleAddInfo(resources, 'species');
+      resources = await this.handleAddInfo(peopleWithSpecies, 'homeworld');
     }
     return resources;
   }
@@ -20,13 +20,15 @@ class Api {
     return response.json();
   }
 
-  static addInfo(resources, type) {
-    const promises = resources.map(async (person) => {
-      const response = await fetch(person[type]);
-      const typeInfo = await this.handleResponse(response);
-      return { ...person, [type]: typeInfo };
-    });
+  static handleAddInfo(resources, type) {
+    const promises = resources.map(this.addInfo.bind(null, type));
     return Promise.all(promises);
+  }
+
+  static async addInfo(type, resource) {
+    const response = await fetch(resource[type]);
+    const typeInfo = await this.handleResponse(response);
+    return { ...resource, [type]: typeInfo };
   }
 }
 
