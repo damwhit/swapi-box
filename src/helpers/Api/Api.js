@@ -20,8 +20,8 @@ class Api {
     return response.json();
   }
 
-  static addInfo(resource, type) {
-    const promises = resource.map(async (person) => {
+  static addInfo(resources, type) {
+    const promises = resources.map(async (person) => {
       const response = await fetch(person[type]);
       const typeInfo = await this.handleResponse(response);
       return { ...person, [type]: typeInfo };

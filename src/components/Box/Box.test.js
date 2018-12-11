@@ -29,11 +29,14 @@ describe('Box', () => {
     expect(wrapper.state('numFavorites')).toBe(2);
   });
 
-  it('should update a resource based on it\'s name', () => {
+  it('should toggle the isFavorite property of a resource based on it\'s name', () => {
     expect(wrapper.state('resources')[1].isFavorite).toBe(false);
 
     wrapper.instance().toggleFavoriteResource('Dagobah');
-
     expect(wrapper.state('resources')[1].isFavorite).toBe(true);
+
+
+    wrapper.instance().toggleFavoriteResource('Dagobah');
+    expect(wrapper.state('resources')[1].isFavorite).toBe(false);
   });
 });
